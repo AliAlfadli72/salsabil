@@ -1,149 +1,256 @@
-import { useState } from "react";
-import { ShoppingCart, Info, Droplets, Wind, Sparkles } from "lucide-react";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { Icon } from "@iconify/react";
+
+function FadeUp({ children, delay = 0, className = "" }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 36 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+const products = [
+  {
+    id: 1,
+    category: "غازية",
+    name: "المشروبات الغازية",
+    icon: "mdi:bottle-soda-classic-outline",
+    accent: "from-brand-500 to-cyan-400",
+    bg: "bg-brand-50",
+    tag: "الأكثر طلباً",
+    desc: "تشكيلة متنوعة من المشروبات الغازية المنعشة بنكهات متعددة، تناسب كل الأذواق.",
+    sizes: ["250 مل", "500 مل", "1 لتر", "1.5 لتر"],
+    features: ["خالٍ من الألوان الصناعية", "معبأ بتقنية معقمة", "نكهات متعددة"],
+  },
+  {
+    id: 2,
+    category: "عصائر",
+    name: "العصائر الطبيعية",
+    icon: "mdi:fruit-citrus",
+    accent: "from-orange-400 to-amber-400",
+    bg: "bg-amber-50",
+    tag: "صحي 100%",
+    desc: "عصائر طبيعية تحافظ على كامل الفيتامينات والنكهة الأصيلة للفاكهة الطازجة.",
+    sizes: ["200 مل", "500 مل", "1 لتر"],
+    features: ["100% طبيعي", "بدون مواد حافظة", "غني بفيتامين C"],
+  },
+  {
+    id: 3,
+    category: "مياه",
+    name: "مياه الشرب المعبأة",
+    icon: "mdi:water-outline",
+    accent: "from-sky-400 to-brand-400",
+    bg: "bg-sky-50",
+    tag: "نقاء طبيعي",
+    desc: "مياه نقية مُرشّحة عبر مراحل متعددة لضمان أعلى معايير النقاء والسلامة.",
+    sizes: ["330 مل", "660 مل", "1.5 لتر", "5 لتر"],
+    features: ["نقاء تام", "معادن متوازنة", "خالٍ من الشوائب"],
+  },
+  {
+    id: 4,
+    category: "طاقة",
+    name: "مشروبات الطاقة",
+    icon: "mdi:lightning-bolt",
+    accent: "from-yellow-400 to-orange-500",
+    bg: "bg-yellow-50",
+    tag: "جديد",
+    desc: "مزيج متوازن من الفيتامينات والمعادن يمنحك الطاقة والتركيز طوال اليوم.",
+    sizes: ["250 مل", "500 مل"],
+    features: ["فيتامينات B", "تورين طبيعي", "بدون سكر مضاف"],
+  },
+  {
+    id: 5,
+    category: "رياضة",
+    name: "مشروبات الرياضة",
+    icon: "mdi:run-fast",
+    accent: "from-green-400 to-cyan-500",
+    bg: "bg-green-50",
+    tag: "Sport Line",
+    desc: "إلكتروليت وأملاح معدنية لتعويض ما يفقده جسمك خلال التمرين والمجهود البدني.",
+    sizes: ["500 مل", "750 مل"],
+    features: ["إلكتروليت", "أملاح معدنية", "ترطيب فائق"],
+  },
+  {
+    id: 6,
+    category: "خاص",
+    name: "إصدارات خاصة",
+    icon: "mdi:star-shooting-outline",
+    accent: "from-purple-500 to-pink-500",
+    bg: "bg-purple-50",
+    tag: "Limited Edition",
+    desc: "نكهات موسمية وحصرية تصدر بكميات محدودة للمناسبات والأعياد الخاصة.",
+    sizes: ["330 مل", "500 مل"],
+    features: ["نكهات موسمية", "تغليف مميز", "كميات محدودة"],
+  },
+];
+
+const categories = ["الكل", "غازية", "عصائر", "مياه", "طاقة", "رياضة", "خاص"];
 
 export default function Products() {
-  const [activeCategory, setActiveCategory] = useState("drinks");
+  const [active, setActive] = useState("الكل");
+  const [selected, setSelected] = useState(null);
 
-  const products = {
-    drinks: [
-      { name: "كولا كلاسيك", size: "330ml", desc: "انفجار من الفقاعات الكلاسيكية والمنعشة.", tag: "الأكثر مبيعاً", color: "from-red-500 to-red-700" },
-      { name: "ليمون لايم", size: "330ml", desc: "مزيج حمضي منعش يمنحك طاقة فورية.", tag: "جديد", color: "from-lime-400 to-emerald-600" },
-      { name: "برتقال فوار", size: "330ml", desc: "طعم البرتقال الغني بلمسة غازية ممتعة.", tag: "منعش", color: "from-orange-400 to-orange-600" },
-    ],
-    juices: [
-      { name: "عصير برتقال", size: "250ml", desc: "عصرة طبيعية 100% غنية بفيتامين سي.", tag: "طبيعي", color: "from-orange-300 to-yellow-500" },
-      { name: "عصير تفاح", size: "250ml", desc: "نقاء التفاح الأخضر في كل رشفة.", tag: "بدون سكر", color: "from-green-400 to-emerald-500" },
-      { name: "عصير مانجا", size: "250ml", desc: "قوام كثيف وطعم استوائي لا يقاوم.", tag: "فاخر", color: "from-yellow-400 to-orange-500" },
-    ],
-  };
+  const filtered = active === "الكل" ? products : products.filter(p => p.category === active);
 
   return (
-    <div className="bg-white min-h-screen" dir="rtl">
-      
-      {/* 1. PRODUCT HERO - Fluid Design */}
-      <section className="relative pt-32 pb-24 bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-[120px]"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500 rounded-full blur-[120px]"></div>
-        </div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">
-            عالم من <span className="text-transparent bg-clip-text bg-gradient-to-l from-blue-400 to-emerald-400">النكهات</span>
-          </h1>
-          <p className="max-w-2xl mx-auto text-slate-400 text-lg md:text-xl leading-relaxed">
-            من قلب الطبيعة السورية إلى مائدتكم، نقدم تشكيلة مختارة بعناية لتناسب كل لحظاتكم الجميلة.
-          </p>
-        </div>
-      </section>
+    <div className="bg-white font-cairo pt-20" dir="rtl">
 
-      {/* 2. NAVIGATION & FILTERING */}
-      <section className="relative z-20 -mt-10 px-6 max-w-7xl mx-auto text-center">
-        <div className="inline-flex p-2 bg-white shadow-2xl rounded-[2.5rem] border border-slate-100">
-          <button
-            onClick={() => setActiveCategory("drinks")}
-            className={`flex items-center gap-2 px-8 py-4 rounded-[2rem] font-bold text-lg transition-all duration-300 ${
-              activeCategory === "drinks"
-                ? "bg-blue-600 text-white shadow-lg shadow-blue-200 scale-105"
-                : "bg-transparent text-slate-500 hover:text-blue-600"
-            }`}
-          >
-            <Sparkles size={20} />
-            مشروبات غازية
-          </button>
-
-          <button
-            onClick={() => setActiveCategory("juices")}
-            className={`flex items-center gap-2 px-8 py-4 rounded-[2rem] font-bold text-lg transition-all duration-300 ${
-              activeCategory === "juices"
-                ? "bg-emerald-500 text-white shadow-lg shadow-emerald-200 scale-105"
-                : "bg-transparent text-slate-500 hover:text-emerald-600"
-            }`}
-          >
-            <Droplets size={20} />
-            عصائر طبيعية
-          </button>
-        </div>
-      </section>
-
-      {/* 3. DYNAMIC PRODUCTS GRID */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-10">
-          {products[activeCategory].map((product, i) => (
-            <div
-              key={i}
-              className="group relative bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
-            >
-              {/* Product Badge */}
-              <div className="absolute top-6 left-6 z-10">
-                <span className="bg-slate-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter">
-                  {product.tag}
-                </span>
-              </div>
-
-              {/* IMAGE AREA - With Floating Effect */}
-              <div className="relative h-72 mb-8 flex items-center justify-center">
-                <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-5 rounded-[2rem] group-hover:opacity-10 transition-opacity`}></div>
-                
-                {/* Visual Placeholder for a Bottle */}
-                <div className="w-24 h-56 bg-slate-200 rounded-2xl relative shadow-lg group-hover:scale-110 transition-transform duration-500 overflow-hidden">
-                   <div className={`absolute bottom-0 w-full h-1/2 bg-gradient-to-t ${product.color} opacity-40 animate-pulse`}></div>
-                </div>
-                
-                {/* Decorative bubbles or leaf icons */}
-                <div className="absolute bottom-10 right-10 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-y-[-20px]">
-                  {activeCategory === 'drinks' ? <Wind className="text-blue-400" /> : <Droplets className="text-emerald-400" />}
-                </div>
-              </div>
-
-              {/* TEXT CONTENT */}
-              <div className="text-center relative z-10">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                   <span className="text-slate-400 text-sm font-bold uppercase">{product.size}</span>
-                </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-3">{product.name}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-8 px-4">
-                  {product.desc}
-                </p>
-
-                {/* ACTION BUTTONS */}
-                <div className="flex gap-3">
-                  <button className="flex-1 flex items-center justify-center gap-2 bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-colors active:scale-95">
-                    <ShoppingCart size={18} />
-                    طلب سريع
-                  </button>
-                  <button className="p-4 bg-slate-100 text-slate-600 rounded-2xl hover:bg-slate-200 transition-colors">
-                    <Info size={20} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. WHOLESALE / DISTRIBUTION CTA */}
-      <section className="px-6 pb-24 max-w-7xl mx-auto">
-        <div className="bg-gradient-to-br from-blue-700 to-blue-900 rounded-[4rem] p-12 md:p-20 text-center text-white relative overflow-hidden">
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-          
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl font-black mb-6">هل أنت تاجر أو صاحب مطعم؟</h2>
-            <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto opacity-80 font-medium">
-              نقدم أسعاراً خاصة وشروط توزيع ميسرة لشركاء النجاح. انضم إلى شبكة موزعي سلسـبيل المعتمدين في كافة المحافظات.
+      {/* HERO */}
+      <section className="py-24 bg-gradient-to-br from-brand-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-dots opacity-40" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <FadeUp>
+            <span className="inline-flex items-center gap-2 text-brand-600 text-sm font-bold uppercase tracking-widest mb-5">
+              <Icon icon="mdi:package-variant-closed" fontSize={16} />
+              كتالوج المنتجات
+            </span>
+            <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">منتجاتنا</h1>
+            <p className="text-ar-lg text-slate-500 max-w-xl mx-auto leading-loose">
+              تشكيلة متكاملة من المشروبات لكل مناسبة وكل ذوق، بمعايير جودة عالمية.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <button className="bg-white text-blue-700 px-10 py-5 rounded-[2rem] font-black text-lg hover:scale-105 transition-all shadow-xl shadow-blue-950/20">
-                طلب قائمة الأسعار بالجملة
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* FILTERS */}
+      <section className="py-8 bg-white sticky top-20 z-50 border-b border-gray-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActive(cat)}
+                className={`flex-shrink-0 px-5 py-2.5 rounded-2xl font-bold text-sm transition-all ${
+                  active === cat
+                    ? "bg-brand-600 text-white shadow-brand-sm"
+                    : "bg-gray-100 text-slate-600 hover:bg-brand-50 hover:text-brand-700"
+                }`}
+              >
+                {cat}
               </button>
-              <button className="bg-blue-800/50 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-[2rem] font-bold text-lg hover:bg-blue-800/80 transition-all">
-                تحدث مع المبيعات
-              </button>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
+      {/* PRODUCTS GRID */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
+            <AnimatePresence>
+              {filtered.map((p, i) => (
+                <motion.div
+                  key={p.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  onClick={() => setSelected(p)}
+                  className="product-card cursor-pointer group"
+                >
+                  <div className={`h-52 ${p.bg} flex items-center justify-center relative overflow-hidden`}>
+                    <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 250 }}>
+                      <Icon icon={p.icon} fontSize={90} className="text-slate-300" />
+                    </motion.div>
+                    <div className="absolute inset-0 flex items-end p-3">
+                      <span className="text-xs text-slate-400 bg-white/70 backdrop-blur-sm px-2 py-0.5 rounded-lg">
+                        صورة المنتج
+                      </span>
+                    </div>
+                    <div className={`absolute top-3 right-3 px-3 py-1 rounded-full bg-gradient-to-l ${p.accent} text-white text-xs font-bold`}>
+                      {p.tag}
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <span className="text-xs text-brand-500 font-bold bg-brand-50 px-2 py-0.5 rounded-full">{p.category}</span>
+                    <h3 className="text-xl font-black text-slate-900 mt-2 mb-2">{p.name}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed mb-4">{p.desc}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {p.sizes.map((s) => (
+                        <span key={s} className="text-xs bg-gray-100 text-slate-600 px-2.5 py-1 rounded-xl font-medium">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* PRODUCT MODAL */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] flex items-center justify-center p-4"
+            onClick={() => setSelected(null)}
+          >
+            <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" />
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative bg-white rounded-5xl shadow-2xl p-8 max-w-md w-full z-10"
+              dir="rtl"
+            >
+              <button onClick={() => setSelected(null)} className="absolute top-5 left-5 w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
+                <Icon icon="mdi:close" fontSize={20} />
+              </button>
+
+              <div className={`h-48 ${selected.bg} rounded-3xl flex items-center justify-center mb-6`}>
+                <Icon icon={selected.icon} fontSize={100} className="text-slate-300" />
+              </div>
+
+              <span className="text-xs text-brand-500 font-bold bg-brand-50 px-2 py-0.5 rounded-full">{selected.category}</span>
+              <h2 className="text-2xl font-black text-slate-900 mt-2 mb-3">{selected.name}</h2>
+              <p className="text-sm text-slate-500 leading-relaxed mb-5">{selected.desc}</p>
+
+              <div className="space-y-3 mb-6">
+                <p className="font-bold text-slate-700 text-sm">المميزات:</p>
+                {selected.features.map((f) => (
+                  <div key={f} className="flex items-center gap-2 text-sm">
+                    <Icon icon="mdi:check-circle" className="text-brand-500" fontSize={18} />
+                    <span className="text-slate-600">{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mb-6">
+                <p className="font-bold text-slate-700 text-sm mb-2">الأحجام المتوفرة:</p>
+                <div className="flex flex-wrap gap-2">
+                  {selected.sizes.map((s) => (
+                    <span key={s} className="px-3 py-1.5 bg-brand-50 text-brand-700 rounded-xl text-sm font-bold border border-brand-100">{s}</span>
+                  ))}
+                </div>
+              </div>
+
+              <Link
+                to="/contact"
+                onClick={() => setSelected(null)}
+                className="flex items-center justify-center gap-2 w-full py-3.5 bg-brand-600 text-white rounded-2xl font-bold hover:bg-brand-700 transition-colors"
+              >
+                <Icon icon="mdi:phone-in-talk-outline" fontSize={20} />
+                استفسار عن المنتج
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

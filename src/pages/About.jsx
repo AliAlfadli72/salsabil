@@ -1,166 +1,256 @@
-import React from 'react';
-import { Target, Lightbulb, ShieldCheck, Leaf, Award, Users, BarChart3, ChevronLeft } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import { FadeUp } from "../utils/LightMotion";
 
 export default function About() {
+  const values = [
+    {
+      icon: "mdi:water-circle",
+      title: "النقاء",
+      desc: "لا تسوية مع جودة المياه والمكوّنات.",
+    },
+    {
+      icon: "mdi:shield-check",
+      title: "الموثوقية",
+      desc: "منتج موثوق يصل إليك بأعلى معايير السلامة.",
+    },
+    {
+      icon: "mdi:leaf",
+      title: "الاستدامة",
+      desc: "نحترم بيئتنا ونستثمر في التقنيات الخضراء.",
+    },
+    {
+      icon: "mdi:handshake",
+      title: "الشراكة",
+      desc: "نبني علاقات طويلة الأمد مع عملائنا وموزعينا.",
+    },
+    {
+      icon: "mdi:lightbulb-on",
+      title: "الابتكار",
+      desc: "نكهات وصيغ جديدة تولد باستمرار من مختبراتنا.",
+    },
+    {
+      icon: "mdi:heart-pulse",
+      title: "الصحة",
+      desc: "خيارات صحية في كل تشكيلة تلائم نمط حياتك.",
+    },
+  ];
+
+  const milestones = [
+    {
+      year: "التأسيس",
+      label: "انطلاق سلسـبيل",
+      desc: "بدأت رحلتنا بحلم بسيط: مشروب نقي يعكس طعم سوريا الأصيل.",
+    },
+    {
+      year: "التوسّع",
+      label: "توسيع خطوط الإنتاج",
+      desc: "أضفنا خطوط إنتاج حديثة ورفعنا الطاقة الإنتاجية بشكل كبير.",
+    },
+    {
+      year: "الجودة",
+      label: "مطابقة المعايير الدولية",
+      desc: "حصلنا على اعتمادات الجودة وفق المواصفات القياسية السورية والدولية.",
+    },
+    {
+      year: "اليوم",
+      label: "رواد في السوق",
+      desc: "منتجاتنا تتواجد في مئات نقاط البيع عبر مختلف المحافظات.",
+    },
+  ];
+
   return (
-    <div className="bg-white text-slate-900 overflow-hidden" dir="rtl">
-      
-      {/* 1. MINIMALIST HERO */}
-      <section className="relative pt-32 pb-20 bg-slate-900 text-white overflow-hidden">
-        <div className="absolute top-0 right-0 w-full h-full opacity-20">
-            {/* Subtle Grid Pattern or Abstract Water Bubbles */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500 via-transparent to-transparent"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-6 text-center">
-          <nav className="flex justify-center gap-2 text-blue-400 text-sm mb-6 font-bold uppercase tracking-widest">
-            <a href="/">الرئيسية</a>
-            <span>/</span>
-            <span className="text-white">من نحن</span>
-          </nav>
-          <h1 className="text-5xl md:text-6xl font-black mb-8">
-            نروي حكاية <span className="text-blue-500">الجودة</span> منذ البداية
-          </h1>
-          <p className="max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed">
-            تعرف على رحلة "سلسـبيل" في صياغة مفهوم جديد للانتعاش في الأسواق السورية والإقليمية.
-          </p>
+    <div className="bg-white font-cairo pt-20" dir="rtl">
+      {/* PAGE HERO */}
+      <section className="relative py-24 bg-gradient-to-br from-brand-50 to-white overflow-hidden">
+        <div className="absolute inset-0 bg-dots opacity-40 pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <FadeUp>
+            <span className="inline-flex items-center gap-2 text-brand-600 text-sm font-bold uppercase tracking-widest mb-5">
+              <Icon icon="mdi:office-building-outline" fontSize={16} />
+              قصة الشركة
+            </span>
+            <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">
+              من نحن
+            </h1>
+            <p className="text-ar-lg text-slate-500 max-w-2xl mx-auto leading-loose">
+              سلسـبيل ليست مجرد علامة تجارية، بل هي قصة شغف وإصرار على تقديم
+              الأفضل دائماً في صناعة المشروبات السورية.
+            </p>
+          </FadeUp>
         </div>
       </section>
 
-      {/* 2. OUR STORY - Dynamic Layout */}
-      <section className="py-24 max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="relative">
-            <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white group">
-              <div className="bg-slate-200 aspect-[4/5] flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform duration-700">
-                {/* Place a high-quality photo of the first bottle or factory entrance */}
-                صورة أرشيفية أو صورة للمصنع
-              </div>
+      {/* WHO WE ARE */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-20 items-center">
+          <FadeUp>
+            <div className="aspect-[4/3] rounded-5xl overflow-hidden shadow-brand-lg relative group">
+              <img
+                src="/bf.webp"
+                alt="مصنع سلسبيل"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              {/* subtle bottom brand bar */}
+              <div
+                className="absolute bottom-0 inset-x-0 h-20 pointer-events-none"
+                style={{ background: "linear-gradient(to top, rgba(1,104,165,0.55), transparent)" }}
+              />
+              <span className="absolute bottom-5 right-6 text-white font-bold text-sm drop-shadow">
+                مصنع سلسـبيل — ريف دمشق
+              </span>
             </div>
-            {/* Experience Badge */}
-            <div className="absolute -bottom-10 -left-10 bg-blue-600 text-white p-10 rounded-[2.5rem] shadow-xl hidden md:block">
-              <p className="text-4xl font-black">2026</p>
-              <p className="text-sm opacity-80 uppercase">نواصل الإبداع</p>
-            </div>
-          </div>
+          </FadeUp>
 
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-blue-600 font-bold mb-2">قصة النجاح</h2>
-              <h3 className="text-4xl font-black text-slate-900 mb-6">من فكرة طموحة إلى واقع يروي الملايين</h3>
-              <p className="text-gray-600 text-lg leading-loose">
-                منذ اللحظة الأولى لتأسيس <strong>سلسـبيل</strong>، لم يكن هدفنا مجرد إنتاج مشروبات غازية، 
-                بل كان التحدي هو ابتكار مذاق يجمع بين التكنولوجيا العالمية والنكهة الأصيلة التي يفضلها المستهلك السوري.
-              </p>
-              <p className="text-gray-600 text-lg leading-loose mt-4">
-                لقد استثمرنا في أرقى خطوط الإنتاج الألمانية والإيطالية، لنضمن أن كل عبوة تخرج من مصانعنا 
-                تحمل معها وعداً بالسلامة، النقاء، والطعم المميز.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-6 pt-6">
-              <div className="p-4 border-r-4 border-blue-600 bg-blue-50">
-                <p className="text-3xl font-black text-blue-600 tracking-tighter">+50</p>
-                <p className="text-slate-700 font-bold">نقطة توزيع</p>
+          <div>
+            <FadeUp delay={0.1}>
+              <h2 className="text-4xl font-black text-slate-900 mb-6">
+                قصة تأسيس <span className="gradient-text">سلسـبيل</span>
+              </h2>
+              <div className="space-y-4 text-ar-base text-slate-500 leading-loose">
+                <p>
+                  انطلقت سلسـبيل من حلم جريء في قلب سوريا: تقديم مشروبات ذات
+                  جودة عالمية تحمل طابعاً محلياً أصيلاً. بدأنا بخط إنتاج واحد
+                  بمعدات حديثة متكاملة، وبفريق مؤمن برسالته.
+                </p>
+                <p>
+                  اليوم، نفخر بأن سلسـبيل تُنتج ملايين العبوات سنوياً، وتغطي
+                  شبكتها التوزيعية أغلب المحافظات السورية، حاملةً معها معايير
+                  الجودة الحقيقية لكل بيت وكل مناسبة.
+                </p>
               </div>
-              <div className="p-4 border-r-4 border-emerald-500 bg-emerald-50">
-                <p className="text-3xl font-black text-emerald-600 tracking-tighter">100%</p>
-                <p className="text-slate-700 font-bold">جودة طبيعية</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </FadeUp>
 
-      {/* 3. VISION & MISSION - Modern Contrast */}
-      <section className="py-24 bg-slate-900 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Vision */}
-            <div className="group bg-white/5 backdrop-blur-sm p-12 rounded-[3rem] border border-white/10 hover:bg-white/10 transition-all duration-500">
-              <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform">
-                <Target className="text-white" size={32} />
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-6">رؤيتنا المستقبليّة</h3>
-              <p className="text-slate-400 text-lg leading-relaxed">
-                أن تصبح "سلسـبيل" الخيار الأول والاسم الأكثر ثقة في قطاع المشروبات على مستوى الشرق الأوسط، 
-                عبر التوسع الذكي والابتكار المستمر في النكهات الصحية.
-              </p>
-            </div>
-
-            {/* Mission */}
-            <div className="group bg-white/5 backdrop-blur-sm p-12 rounded-[3rem] border border-white/10 hover:bg-white/10 transition-all duration-500">
-              <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform">
-                <Lightbulb className="text-white" size={32} />
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-6">رسالتنا</h3>
-              <p className="text-slate-400 text-lg leading-relaxed">
-                الالتزام بتقديم منتجات عالية الجودة بأسعار عادلة، مع الحفاظ على معايير الاستدامة البيئية 
-                ودعم المجتمع المحلي من خلال خلق فرص عمل وتطوير الكفاءات الوطنية.
-              </p>
+            <div className="grid grid-cols-2 gap-4 mt-8">
+              {[
+                {
+                  icon: "mdi:map-marker-radius",
+                  val: "ريف دمشق",
+                  label: "مقرنا",
+                },
+                {
+                  icon: "mdi:certificate",
+                  val: "معتمد",
+                  label: "جودة مُعتمدة",
+                },
+              ].map((s, i) => (
+                <FadeUp key={i} delay={0.2 + i * 0.1}>
+                  <div className="bg-brand-50 rounded-3xl p-5 border border-brand-100">
+                    <Icon
+                      icon={s.icon}
+                      fontSize={24}
+                      className="text-brand-600 mb-2"
+                    />
+                    <p className="text-2xl font-black text-slate-900">
+                      {s.val}
+                    </p>
+                    <p className="text-sm text-slate-500">{s.label}</p>
+                  </div>
+                </FadeUp>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. VALUES - Icon Grid */}
-      <section className="py-24 max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-blue-600 font-bold mb-4 uppercase tracking-[0.3em]">مبادئنا</h2>
-        <h3 className="text-4xl font-black mb-16">القيم التي تحركنا كل يوم</h3>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            { name: "الجودة الفائقة", icon: <Award className="text-blue-600" />, desc: "لا نساوم أبداً على المعايير الصحية." },
-            { name: "الابتكار الدائم", icon: <Lightbulb className="text-orange-500" />, desc: "نبحث دائماً عن نكهات تسبق التوقعات." },
-            { name: "الثقة المتبادلة", icon: <Users className="text-indigo-600" />, desc: "علاقتنا مع العميل والموزع هي رأس مالنا." },
-            { name: "الاستدامة", icon: <Leaf className="text-emerald-500" />, desc: "نهتم بالأرض بقدر ما نهتم بمنتجاتنا." },
-          ].map((value, i) => (
-            <div key={i} className="flex flex-col items-center p-8 rounded-[2rem] hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-              <div className="mb-6 p-5 bg-slate-50 rounded-full group-hover:bg-white transition-colors">
-                {value.icon}
-              </div>
-              <h4 className="text-xl font-bold mb-3">{value.name}</h4>
-              <p className="text-gray-500 text-sm leading-relaxed">{value.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 5. MARKET POSITION - Impact Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto bg-gradient-to-r from-blue-600 to-blue-800 rounded-[4rem] p-12 md:p-20 relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-          
-          <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-right">
-              <h2 className="text-4xl font-black text-white mb-6">مكانتنا في السوق المحلي</h2>
-              <p className="text-blue-100 text-xl leading-relaxed opacity-90">
-                بفضل شبكة توزيع تغطي 14 محافظة سورية، نجحت سلسـبيل في بناء حضور قوي 
-                يجعل منتجاتنا في متناول يد الجميع، من المدن الكبرى وصولاً إلى الأرياف.
-              </p>
-              <button className="mt-8 bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-blue-50 transition-all shadow-xl">
-                تعرف على شركاء التوزيع <ChevronLeft size={20} />
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-               <div className="bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 text-center">
-                  <p className="text-4xl font-black text-white mb-2 tracking-tighter">14+</p>
-                  <p className="text-blue-200 text-sm font-bold uppercase tracking-widest">محافظة</p>
-               </div>
-               <div className="bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 text-center">
-                  <p className="text-4xl font-black text-white mb-2 tracking-tighter">24/7</p>
-                  <p className="text-blue-200 text-sm font-bold uppercase tracking-widest">عمليات إنتاج</p>
-               </div>
-               <div className="bg-emerald-400/20 backdrop-blur-md p-8 rounded-3xl border border-emerald-400/20 text-center col-span-2">
-                  <BarChart3 className="mx-auto text-emerald-400 mb-4" size={32}/>
-                  <p className="text-white font-bold">نمو مستمر في الحصة السوقية سنوياً</p>
-               </div>
-            </div>
+      {/* VALUES */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeUp className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 text-brand-600 text-sm font-bold uppercase tracking-widest mb-4">
+              <Icon icon="mdi:star-circle-outline" fontSize={16} />
+              قيمنا
+            </span>
+            <h2 className="text-4xl font-black text-slate-900">
+              ما يُحرّكنا كل يوم
+            </h2>
+          </FadeUp>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {values.map((v, i) => (
+              <FadeUp key={i} delay={i * 0.08}>
+                <motion.div
+                  whileHover={{ y: -5 }}
+                  className="bg-white rounded-4xl p-7 border border-gray-100 shadow-card hover:shadow-brand-sm transition-all"
+                >
+                  <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 mb-4">
+                    <Icon icon={v.icon} fontSize={26} />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 mb-2">
+                    {v.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                    {v.desc}
+                  </p>
+                </motion.div>
+              </FadeUp>
+            ))}
           </div>
         </div>
       </section>
 
+      {/* TIMELINE */}
+      <section className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeUp className="text-center mb-14">
+            <h2 className="text-4xl font-black text-slate-900">مسيرة النجاح</h2>
+            <p className="text-slate-500 mt-3">محطات جوهرية شكّلت هويتنا</p>
+          </FadeUp>
+          <div className="space-y-0">
+            {milestones.map((m, i) => (
+              <FadeUp key={i} delay={i * 0.12}>
+                <div className="flex gap-6">
+                  <div className="flex flex-col items-center">
+                    <div className="w-12 h-12 rounded-full bg-brand-600 flex items-center justify-center text-white font-black text-xs flex-shrink-0 shadow-brand-sm">
+                      {i + 1}
+                    </div>
+                    {i < milestones.length - 1 && (
+                      <div className="w-0.5 flex-1 bg-brand-100 my-2" />
+                    )}
+                  </div>
+                  <div className="pb-10 pt-2">
+                    <span className="inline-block px-3 py-1 bg-brand-50 text-brand-600 text-xs font-black rounded-full mb-2">
+                      {m.year}
+                    </span>
+                    <h3 className="text-xl font-black text-slate-900 mb-2">
+                      {m.label}
+                    </h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">
+                      {m.desc}
+                    </p>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-4">
+        <FadeUp>
+          <div
+              className="max-w-4xl mx-auto rounded-5xl p-14 text-center text-white relative overflow-hidden"
+              style={{ background: "linear-gradient(135deg, #0083cc 0%, #0ca7ed 55%, #22d3ee 100%)" }}
+            >
+            <div className="absolute inset-0 bg-dots opacity-20 pointer-events-none" />
+            <div className="relative z-10">
+              <h2 className="text-3xl font-black mb-4">
+                هل أنت مهتم بالتعاون معنا؟
+              </h2>
+              <p className="text-blue-100 mb-8 leading-relaxed">
+                نرحب بجميع الاستفسارات المتعلقة بالتوزيع والشراكة.
+              </p>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#0168a5] rounded-2xl font-black hover:bg-blue-50 transition-colors shadow-md"
+              >
+                <Icon icon="mdi:phone-in-talk-outline" fontSize={20} />
+                تواصل معنا
+              </Link>
+            </div>
+          </div>
+        </FadeUp>
+      </section>
     </div>
   );
 }

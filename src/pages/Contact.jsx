@@ -1,156 +1,247 @@
-import React from 'react';
-import { Phone, Mail, MapPin, Send, MessageCircle, Clock, Facebook, Instagram } from 'lucide-react';
+import { useState } from "react";
+import { Icon } from "@iconify/react";
+import { FadeUp } from "../utils/LightMotion";
+
+const contactInfo = [
+  { icon: "mdi:phone-in-talk-outline", label: "هاتف المبيعات", value: "+963 550 725 933", href: "tel:+963550725933", dir: "ltr" },
+  { icon: "mdi:email-fast-outline",    label: "البريد الإلكتروني", value: "info@salsabil-sy.com", href: "mailto:info@salsabil-sy.com", dir: "ltr" },
+  { icon: "mdi:map-marker-outline",    label: "الموقع",          value: "صبّورة، يفور، ريف دمشق، سوريا", href: "#", dir: "rtl" },
+  { icon: "mdi:clock-outline",         label: "ساعات العمل",     value: "الأحد–الخميس: 8 ص– 5 م", href: "#", dir: "rtl" },
+];
 
 export default function Contact() {
+  const [form, setForm] = useState({ name: "", company: "", phone: "", type: "", message: "" });
+  const [sent, setSent] = useState(false);
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulate submission
+    setSent(true);
+  };
+
   return (
-    <div className="bg-white text-slate-900" dir="rtl">
-      
-      {/* 1. MINIMALIST HERO */}
-      <section className="relative pt-32 pb-20 bg-slate-900 text-white overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full opacity-40 pointer-events-none">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">
-            دائماً <span className="text-blue-600">بالقرب منك</span>
-          </h1>
-          <p className="max-w-2xl mx-auto text-lg text-slate-500 leading-relaxed font-medium">
-            سواء كنت مستهلكاً، موزعاً، أو شريكاً مستقبلياً، نحن هنا للاستماع إليك وتقديم الدعم اللازم.
-          </p>
+    <div className="bg-white font-cairo pt-20" dir="rtl">
+
+      {/* HERO */}
+      <section className="py-24 bg-gradient-to-br from-brand-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-dots opacity-40" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <FadeUp>
+            <span className="inline-flex items-center gap-2 text-brand-600 text-sm font-bold uppercase tracking-widest mb-5">
+              <Icon icon="mdi:phone-in-talk-outline" fontSize={16} />
+              التواصل معنا
+            </span>
+            <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">
+              نُسعد بتواصلكم
+            </h1>
+            <p className="text-ar-lg text-slate-500 max-w-xl mx-auto leading-loose">
+              سواء كنت موزعاً محتملاً أو عميلاً أو شريكاً — نحن هنا للإجابة على كل استفساراتكم.
+            </p>
+          </FadeUp>
         </div>
       </section>
 
-      {/* 2. CONTACT CONTENT - SPLIT LAYOUT */}
-      <section className="py-20 max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          
-          {/* Left Side: Info & Socials */}
-          <div className="space-y-12">
-            <div>
-              <h2 className="text-3xl font-black mb-8 text-slate-800">معلومات التواصل</h2>
-              <div className="space-y-6">
-                {[
-                  { icon: <Phone />, title: "الخط الساخن", detail: "+963 550 725 933", color: "bg-blue-50 text-blue-600" },
-                  { icon: <Mail />, title: "البريد الإلكتروني", detail: "info@salsabil-sy.com", color: "bg-emerald-50 text-emerald-600" },
-                  { icon: <MapPin />, title: "المقر الرئيسي", detail: "دممشق، سوريا - المنطقة الصناعية", color: "bg-slate-100 text-slate-600" },
-                  { icon: <Clock />, title: "ساعات العمل", detail: "الأحد - الخميس: 9:00 ص - 5:00 م", color: "bg-orange-50 text-orange-600" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-5 p-4 rounded-3xl hover:bg-slate-50 transition-colors group">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:rotate-12 ${item.color}`}>
-                      {React.cloneElement(item.icon, { size: 24 })}
+      {/* FORM + INFO */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-5 gap-14">
+
+          {/* CONTACT INFO */}
+          <div className="lg:col-span-2 space-y-5">
+            <FadeUp>
+              <h2 className="text-2xl font-black text-slate-900 mb-8">معلومات التواصل</h2>
+            </FadeUp>
+            {contactInfo.map((info, i) => (
+              <FadeUp key={i} delay={i * 0.1}>
+                <a
+                  href={info.href}
+                  className="flex items-start gap-4 p-5 bg-white rounded-3xl border border-gray-100 shadow-card hover:shadow-brand-sm hover:border-brand-100 transition-all group"
+                >
+                  <div className="w-12 h-12 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 flex-shrink-0 group-hover:bg-brand-600 group-hover:text-white transition-all">
+                    <Icon icon={info.icon} fontSize={22} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-400 mb-0.5">{info.label}</p>
+                    <p className="font-bold text-slate-900 text-sm" dir={info.dir}>{info.value}</p>
+                  </div>
+                </a>
+              </FadeUp>
+            ))}
+
+            {/* Social media */}
+            <FadeUp delay={0.4}>
+              <div className="p-6 bg-brand-50 rounded-4xl border border-brand-100">
+                <p className="font-bold text-slate-800 mb-4">تابعونا على</p>
+                <div className="flex gap-3">
+                  {[
+                    { icon: "mdi:facebook", href: "#", bg: "hover:bg-blue-600" },
+                    { icon: "mdi:instagram", href: "#", bg: "hover:bg-pink-500" },
+                    { icon: "mdi:whatsapp", href: "#", bg: "hover:bg-green-500" },
+                  ].map((s, i) => (
+                    <a
+                      key={i}
+                      href={s.href}
+                      className={`w-11 h-11 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-slate-600 hover:text-white transition-all ${s.bg}`}
+                    >
+                      <Icon icon={s.icon} fontSize={22} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* CONTACT FORM */}
+          <div className="lg:col-span-3">
+            <FadeUp delay={0.15}>
+              {sent ? (
+                <div
+                  className="h-full flex flex-col items-center justify-center text-center py-20 bg-brand-50 rounded-5xl border border-brand-100 animate-[fadeIn_0.4s_ease]"
+                >
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-5">
+                    <Icon icon="mdi:check-circle" className="text-green-600" fontSize={50} />
+                  </div>
+                  <h3 className="text-2xl font-black text-slate-900 mb-3">تم الإرسال بنجاح!</h3>
+                  <p className="text-slate-500 max-w-sm leading-relaxed">
+                    شكراً لتواصلكم. سيقوم فريقنا بمراجعة رسالتكم والرد عليكم خلال 24 ساعة.
+                  </p>
+                  <button
+                    onClick={() => setSent(false)}
+                    className="mt-8 px-6 py-3 bg-brand-600 text-white rounded-2xl font-bold hover:bg-brand-700 transition-colors"
+                  >
+                    إرسال رسالة جديدة
+                  </button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-white rounded-5xl border border-gray-100 shadow-card p-8 space-y-5"
+                >
+                  <div>
+                    <h2 className="text-2xl font-black text-slate-900 mb-2">أرسل لنا رسالة</h2>
+                    <p className="text-slate-500 text-sm">وسيرد عليك فريقنا خلال 24 ساعة</p>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-bold text-slate-700 mb-1.5">الاسم الكامل *</label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={form.name}
+                        onChange={handleChange}
+                        placeholder="اسمك"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all"
+                      />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-400 text-sm uppercase tracking-widest">{item.title}</h4>
-                      <p className="text-xl font-black text-slate-800">{item.detail}</p>
+                      <label className="block text-sm font-bold text-slate-700 mb-1.5">اسم الشركة / المنشأة</label>
+                      <input
+                        type="text"
+                        name="company"
+                        value={form.company}
+                        onChange={handleChange}
+                        placeholder="اختياري"
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all"
+                      />
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Social Support */}
-            <div className="p-8 bg-slate-900 rounded-[3rem] text-white relative overflow-hidden">
-              <div className="relative z-10">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                  <MessageCircle className="text-emerald-400" />
-                  الدعم عبر الواتساب
-                </h3>
-                <p className="text-slate-400 mb-6 text-sm">للحصول على رد سريع بخصوص طلبات التوزيع، تواصل معنا مباشرة.</p>
-                <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3 rounded-2xl font-bold transition-all flex items-center gap-2">
-                   بدء المحادثة
-                </button>
-              </div>
-              <div className="absolute -bottom-10 -right-10 opacity-10">
-                <MessageCircle size={150} />
-              </div>
-            </div>
-          </div>
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-1.5">رقم الهاتف / الواتساب *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="+963..."
+                      dir="ltr"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all"
+                    />
+                  </div>
 
-          {/* Right Side: Modern Form */}
-          <div className="bg-white p-8 md:p-12 rounded-[3.5rem] shadow-2xl shadow-slate-200 border border-slate-100 relative">
-            <h3 className="text-2xl font-black mb-8">أرسل لنا رسالة</h3>
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-400 uppercase mr-2 tracking-widest">الاسم</label>
-                  <input type="text" className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 transition-all" placeholder="الاسم الكامل" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-400 uppercase mr-2 tracking-widest">رقم الهاتف</label>
-                  <input type="tel" className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 transition-all" placeholder="09xx xxx xxx" />
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-xs font-black text-slate-400 uppercase mr-2 tracking-widest">البريد الإلكتروني</label>
-                <input type="email" className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 transition-all" placeholder="name@company.com" />
-              </div>
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-1.5">نوع الاستفسار</label>
+                    <select
+                      name="type"
+                      value={form.type}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all appearance-none"
+                    >
+                      <option value="">اختر نوع الاستفسار</option>
+                      <option>طلب توزيع / شراكة</option>
+                      <option>استفسار عن منتج</option>
+                      <option>اقتراح أو شكوى</option>
+                      <option>أخرى</option>
+                    </select>
+                  </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-black text-slate-400 uppercase mr-2 tracking-widest">الموضوع</label>
-                <select className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 transition-all">
-                  <option>استفسار عام</option>
-                  <option>طلب توزيع</option>
-                  <option>شكوى أو اقتراح</option>
-                  <option>أخرى</option>
-                </select>
-              </div>
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-1.5">رسالتك *</label>
+                    <textarea
+                      name="message"
+                      rows={5}
+                      required
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="اكتب رسالتك هنا..."
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all resize-none"
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-black text-slate-400 uppercase mr-2 tracking-widest">الرسالة</label>
-                <textarea className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600 transition-all h-40" placeholder="كيف يمكننا مساعدتك؟"></textarea>
-              </div>
-
-              <button className="w-full bg-blue-600 text-white py-5 rounded-[2rem] font-black text-lg shadow-xl shadow-blue-200 hover:bg-blue-700 hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                إرسال الرسالة
-                <Send size={20} className="rotate-180" />
-              </button>
-            </form>
+                  <button
+                    type="submit"
+                    className="w-full flex items-center justify-center gap-2 py-4 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl font-black text-base active:scale-95 transition-all shadow-brand-sm"
+                  >
+                    <Icon icon="mdi:send" fontSize={20} className="rotate-180" />
+                    إرسال الرسالة
+                  </button>
+                </form>
+              )}
+            </FadeUp>
           </div>
         </div>
       </section>
 
-      {/* 3. INTERACTIVE MAP SECTION */}
-      <section className="px-6 pb-24 max-w-7xl mx-auto">
-        <div className="relative group rounded-[4rem] overflow-hidden shadow-2xl h-[500px] bg-slate-100 border-8 border-white">
-          {/* Static Map Image Placeholder or Iframe */}
-          <div className="absolute inset-0 flex items-center justify-center text-slate-400 font-bold italic">
-             سيتم عرض الخريطة التفاعلية هنا لتمثيل موقع المصنع والإدارة
-          </div>
-          
-          {/* Floating Address Card */}
-          <div className="absolute bottom-10 right-10 bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] shadow-xl max-w-sm hidden md:block">
-            <div className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-4">
-              <MapPin />
-            </div>
-            <h4 className="text-xl font-bold mb-2">مقرنا الرئيسي</h4>
-            <p className="text-slate-500 text-sm leading-relaxed">
-              سوريا، ريف دمشق، المدينة الصناعية - القطاع الثالث، شارع سلسبيل.
-            </p>
-            <button className="mt-4 text-blue-600 font-black text-sm hover:underline">فتح في خرائط جوجل ←</button>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. SOCIAL MEDIA CONNECT */}
-      <section className="py-20 bg-slate-50 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-2xl font-black text-slate-800 mb-10 text-center">تابعنا على منصات التواصل</h2>
-          <div className="flex justify-center gap-8">
-            <a href="#" className="w-16 h-16 bg-white shadow-md rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all">
-              <Facebook size={28} />
-            </a>
-            <a href="#" className="w-16 h-16 bg-white shadow-md rounded-full flex items-center justify-center text-pink-600 hover:bg-pink-600 hover:text-white transition-all">
-              <Instagram size={28} />
-            </a>
-            <a href="#" className="w-16 h-16 bg-white shadow-md rounded-full flex items-center justify-center text-blue-400 hover:bg-blue-400 hover:text-white transition-all">
-              <MessageCircle size={28} />
-            </a>
+      {/* FAQ */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeUp className="text-center mb-14">
+            <h2 className="text-4xl font-black text-slate-900 mb-3">الأسئلة الشائعة</h2>
+            <p className="text-slate-500">إجابات على أبرز استفساراتكم</p>
+          </FadeUp>
+          <div className="space-y-4">
+            {[
+              { q: "كيف أصبح موزعاً معتمداً لمنتجات سلسـبيل؟",
+                a: "تواصل معنا عبر نموذج الاتصال أو الهاتف، وسيتواصل معك مندوبنا خلال 24 ساعة لمناقشة شروط التوزيع." },
+              { q: "هل منتجاتكم متوفرة خارج سوريا؟",
+                a: "حالياً نركّز على تغطية السوق المحلي بشكل متكامل، ونتطلع للتوسع الإقليمي مستقبلاً." },
+              { q: "ما معايير السلامة المتبعة في التعبئة؟",
+                a: "نستخدم تقنية التعبئة المعقمة (Aseptic) التي تحافظ على الطعم والفيتامينات دون مواد حافظة مصنّعة." },
+              { q: "هل يمكن طلب كميات كبيرة بأسعار خاصة؟",
+                a: "نعم، نُقدّم أسعاراً تفضيلية للطلبات الكبيرة والمنشآت التجارية. تواصل مع قسم المبيعات للتفاصيل." },
+            ].map((item, i) => (
+              <FadeUp key={i} delay={i * 0.1}>
+                <details className="group bg-white rounded-3xl p-5 border border-gray-100 shadow-card hover:border-brand-100 transition-all">
+                  <summary className="flex justify-between items-center cursor-pointer font-bold text-slate-800 list-none">
+                    {item.q}
+                    <Icon
+                      icon="mdi:chevron-down"
+                      fontSize={22}
+                      className="text-brand-500 group-open:rotate-180 transition-transform flex-shrink-0 mr-4"
+                    />
+                  </summary>
+                  <p className="mt-4 pt-4 border-t border-gray-100 text-sm text-slate-500 leading-relaxed">
+                    {item.a}
+                  </p>
+                </details>
+              </FadeUp>
+            ))}
           </div>
         </div>
       </section>
-
     </div>
   );
 }
