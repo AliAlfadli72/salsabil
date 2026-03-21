@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { FadeUp } from "../utils/LightMotion";
+import { motion } from "framer-motion"; // ✅ ADD THIS
 
 export default function About() {
   const values = [
